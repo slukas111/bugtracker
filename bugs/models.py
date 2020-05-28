@@ -7,17 +7,24 @@ from django.contrib.auth.models import User
 
 class BugTracker(models.Model):
     """Trouble tickets"""
-    title = models.TextField(max_length=100)
+
+    title = models.TextField(max_length=50)
     time_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=1000)
-    bug_reporter = models.ForeignKey(None)
-    assign_user = models.ForeignKey(None)
-    completed_by = models.ForeignKey(None)
+    bug_reporter = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="bug_reporter", null=True
+    )
+    assign_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="assign_user", null=True
+    )
+    completed_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="completed_by", null=True
+    )
 
-    NEW = ("New",)
-    IN_PROGRESS = ("In Progress",)
-    DONE = ("Done",)
-    INVALID = ("Invalid",)
+    NEW = "New"
+    IN_PROGRESS = "In Progress"
+    DONE = "Done"
+    INVALID = "Invalid"
 
     TICKET_STATUS_CHOICES = [
         (NEW, "New"),
