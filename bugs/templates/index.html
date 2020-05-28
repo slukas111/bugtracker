@@ -4,10 +4,12 @@
 <div>
 <h1> Bug Tracker </h1>
 {{ new_tickets }}
-<ul>
+<li>
+<h3>New Tickets<h3>
 {% for tickets in new_tickets %}
 <p>{{tickets.description}}</p>
-</ul>
+<p>created by: {{ tickets.bug_reporter }}
+<li>
 {% endfor %}
 
 </div>
