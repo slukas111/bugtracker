@@ -1,9 +1,12 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-
+class CustomUser(AbstractUser):
+    pass
+    def __str__(self):
+        return self.username
 
 class BugTracker(models.Model):
     """Trouble tickets"""
@@ -12,13 +15,13 @@ class BugTracker(models.Model):
     time_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=1000)
     bug_reporter = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="bug_reporter", null=True
+        CustomUser, on_delete=models.CASCADE, related_name="bug_reporter", null=True
     )
     assign_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="assign_user", null=True
+        CustomUser, on_delete=models.CASCADE, related_name="assign_user", null=True
     )
     completed_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="completed_by", null=True
+        CustomUser, on_delete=models.CASCADE, related_name="completed_by", null=True
     )
 
     NEW = "New"

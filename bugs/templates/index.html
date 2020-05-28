@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body%}
+<div>
+<h1> Bug Tracker </h1>
+{{ new_tickets }}
+<ul>
+{% for tickets in new_tickets %}
+<p>{{tickets.description}}</p>
+</ul>
+{% endfor %}
+
+</div>
+{% endblock body %}
