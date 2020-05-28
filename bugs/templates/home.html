@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h2>{{ ticket.title }}</h2>
+<p>{{ ticket.description }}<p>
+<hr />
+{% for comment in comments %}
+<p>{{ comment.content }}</p>
+<hr /> 
+{% endfor %}
+
+</form>
+{% endblock %}
