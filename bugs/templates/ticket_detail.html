@@ -1,0 +1,14 @@
+{{ ticket }}
+<div class=classicbox">
+    <ul>
+        <li>  title: {{ticket.title}} </li>
+        <li> description: {{ticket.description}}</li>
+        <li> author by: {{ ticket.bug_reporter }} </li>
+        <li> assigned to: {{ ticket.assign_user }} </li>
+        <li> completed by: {{ ticket.completed_by }} </li>
+        <li> status: {{ticket.ticket_status }} </li>
+    </ul>
+</div>
+<a href={% url "assign_ticket" id=ticket.id%}><button>Assign Ticket</button></a>
+<a href={% url "edit_ticket" id=ticket.id %}><button>Edit Ticket</button></a>
+<a href={% url "homepage" %}><button>Return Tickets</button></a>

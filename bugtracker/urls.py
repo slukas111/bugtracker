@@ -15,10 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 from bugs import views
 from bugs.models import BugTracker
+from bugs.views import *
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="homepage"),
+    path("signup/", SignUpView.as_view(), name="signup"),
+    path("login/", LoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("edit_ticket/<int:id>", edit_ticket, name="edit_ticket"),
+    # path("create_ticket/", views.create_ticket, name="create_ticket"),
+    path("ticket_detail/<int:id>", views.ticket_detail, name="ticket_detail"),
+    path("assign_ticket/edit/<int:id>", views.assign_ticket, name="assign_ticket"),
 ]

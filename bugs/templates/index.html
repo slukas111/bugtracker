@@ -3,14 +3,88 @@
 {% block body%}
 <div>
 <h1> Bug Tracker </h1>
-{{ new_tickets }}
-<li>
-<h3>New Tickets<h3>
-{% for tickets in new_tickets %}
-<p>{{tickets.description}}</p>
-<p>created by: {{ tickets.bug_reporter }}
-<li>
-{% endfor %}
 
+{% comment %} style-inline {% endcomment %}
+<style>
+.city {
+  background-color: black;
+  color: white;
+  margin: 20px;
+  padding: 20px;
+}
+.ticketbox {
+    background-color: blue;
+    color: white;
+    margin: 20px;
+    padding: 20px;
+}
+</style>
+
+{% comment %} login-logout section {% endcomment %}
+{% if user.is_authenticated %}
+<p> Welcome User: {{request.user.username}} </p>
+
+<a href={% url "logout" %}><button>Logout</button></a>
+
+    {% else %}
+<p><a href='login/'>Login</a></p>
+{% endif %}
+
+<h3>New Tickets<h3>
+
+<div class="ticketbox">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit Ticket" />
+    </form>
 </div>
+<br>
+
+<div class="city">
+<h3> Current Tickets still available </h3>
+    {% for tickets in ticket_data %}
+    <h2><a href="{% url 'ticket_detail' tickets.id %}">{{ tickets.title }}</a></h2>
+    <p>{{tickets.description}}</p>
+    <p>created by: {{ tickets.bug_reporter }}
+    <p>---------------------------------</p>
+{% endfor %}
+</div>
+
+{% comment %} <h3> Completed Tickets </h3>
+    {% for tickets in done_tickets %} {% endcomment %}
+<div class="ticketbox">
+<h2> In-progress Tickets </h2>
+    {% for tickets in ticket_data %}
+    {% if tickets.ticket_status == "In Progress" %}
+<h2><a href="{% url 'ticket_detail' tickets.id %}">{{ tickets.title }}</a></h2>
+    <p>{{tickets.description}}</p>
+    <p>created by: {{ tickets.bug_reporter }}
+{%endif%}
+{%endfor%}
+</div>
+
+
+<div class="ticketbox">
+<h2> Completed Tickets </h2>
+    {% for tickets in ticket_data %}
+    {% if tickets.ticket_status == "Done" %}
+<h2><a href="{% url 'ticket_detail' tickets.id %}">{{ tickets.title }}</a></h2>
+    <p>{{tickets.description}}</p>
+    <p>created by: {{ tickets.bug_reporter }}
+{%endif%}
+{%endfor%}
+</div>
+
+<div class="ticketbox">
+<h2> Invalid Tickets </h2>
+    {% for tickets in ticket_data %}
+    {% if tickets.ticket_status == "Invalid" %}
+<h2><a href="{% url 'ticket_detail' tickets.id %}">{{ tickets.title }}</a></h2>
+    <p>{{tickets.description}}</p>
+    <p>created by: {{ tickets.bug_reporter }}
+{%endif%}
+{%endfor%}
+</div>
+
 {% endblock body %}
