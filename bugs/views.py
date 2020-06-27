@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm, TicketForm, EditTicketForm
 from django.contrib.auth.decorators import login_required
 
-# this works
+# this works. create the tickets
 @login_required
 def index(request):
     html = "index.html"
@@ -20,10 +20,10 @@ def index(request):
         if form.is_valid():
             data = form.cleaned_data
             BugTracker.objects.create(
-                ticket_status="New",
                 title=data["title"],
                 description=data["description"],
                 bug_reporter=request.user,
+                ticket_status="New",
             )
             return HttpResponseRedirect(reverse("homepage"))
 
@@ -108,3 +108,13 @@ def assign_ticket(request, id):
     ticket.status = "IN_PROGRESS"
     ticket.save()
     return HttpResponseRedirect(reverse("ticket_detail", args=(id,)))
+
+# def update_status(request, id):
+#     ticket = get_object_or_404(BugTracker, id=id)
+#     status = request.GET.get(status)
+#     if status:
+#         ticket.status = status
+#         ticket.save()
+#     else:
+#         raise Http404
+#     return HttpResponse({'ticket_id': ticket.id, 'status': ticket.status, content_type='application/json')
