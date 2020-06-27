@@ -1,0 +1,6 @@
+# created by virtualenv automatically
+# envo
+.vscode
+.env
+.venv
+__pycache__
